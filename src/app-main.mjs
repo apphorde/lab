@@ -89,6 +89,7 @@ export default function () {
     setProjectName,
     selected,
     error,
+    files,
     download,
     upload,
     openFile,
