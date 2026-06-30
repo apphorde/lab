@@ -84,6 +84,11 @@ export default function () {
     selected.value = file;
   }
 
+  function onSubmit() {
+    if (!(key && projectName.value)) return;
+    download();
+  }
+
   return {
     projectName,
     setProjectName,
@@ -94,5 +99,6 @@ export default function () {
     upload,
     openFile,
     authorize,
+    onSubmit,
   };
 }

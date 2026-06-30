@@ -2,17 +2,20 @@
   <div class="flex flex-col items-start w-screen h-screen">
     <header class="h-4">
       <div class="flex h-4">
-        <input
-          type="text"
-          bind-value="projectName"
-          on-change="setProjectName($event.target.value)"
-          placeholder="Project name"
-        />
-        <input
-          type="text"
-          on-change="authorize($event.target.value)"
-          placeholder="API key"
-        />
+        <form on-submit.prevent.stop="onSubmit()">
+          <input
+            type="text"
+            bind-value="projectName"
+            on-change="setProjectName($event.target.value)"
+            placeholder="Project name"
+          />
+          <input
+            type="text"
+            on-change="authorize($event.target.value)"
+            placeholder="API key"
+          />
+          <button type="submit">Refresh</button>
+        </form>
       </div>
       <template if="error">
         <div class="text-red-400 font-bold text-2xl p-2">
