@@ -1,0 +1,26 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish to AppHorde Registry
+        env:
+          CDN_API_URL: ${{ secrets.CDN_API_URL }}
+          CDN_API_KEY: ${{ secrets.CDN_API_KEY }}
+          DEPLOY_API_URL: ${{ secrets.DEPLOY_API_URL }}
+          DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
+        run: |
+          tar -cz -f - --exclude --exclude .git/ --exclude .github/ . | curl -sS -H "Authorization: $DEPLOY_API_KEY" $DEPLOY_API_URL --data-binary @-

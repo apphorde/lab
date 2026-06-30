@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component Editor</title>
+    <link rel="component" href="/src/app-main.html" />
+    <link rel="stylesheet" href="https://wdn.homebots.io/tailwind.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@li3/": "https://at-li3.static.apphor.de/",
+          "@app/": "./src/",
+          "tar": "https://unpkg.com/modern-tar"
+        }
+      }
+    </script>
+    <script type="module">
+      import "@li3/web";
+    </script>
+  </head>
+  <body>
+    <app-main></app-main>
+  </body>
+</html>
