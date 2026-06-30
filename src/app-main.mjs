@@ -26,6 +26,7 @@ export async function pull(name) {
 
     files.push({
       name: entry.header.name,
+      type: entry.type,
       content,
     });
   }
@@ -78,6 +79,7 @@ export function authorize(newKey) {
 
 export default function () {
   const [projectName, setProjectName] = hook("");
+  const [showPreview, setPreview] = hook(false);
   const files = ref([]);
   const error = ref(null);
   const selected = shallowRef(null);
@@ -98,6 +100,10 @@ export default function () {
     selected.value = file;
   }
 
+  function setContent(content) {
+    selected.value.content = content;
+  }
+
   function onSubmit() {
     if (!(key && projectName.value)) return;
     download();
@@ -109,6 +115,9 @@ export default function () {
     selected,
     error,
     files,
+    showPreview,
+    setPreview,
+    setContent,
     download,
     upload,
     openFile,
