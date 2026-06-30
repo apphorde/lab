@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Publish to AppHorde Registry
+      - name: Publish
         env:
           CDN_API_URL: ${{ secrets.CDN_API_URL }}
           CDN_API_KEY: ${{ secrets.CDN_API_KEY }}
           DEPLOY_API_URL: ${{ secrets.DEPLOY_API_URL }}
           DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
         run: |
-          tar -cz -f - --exclude --exclude .git/ --exclude .github/ . | curl -sS -H "Authorization: $DEPLOY_API_KEY" $DEPLOY_API_URL --data-binary @-
+          tar -cz -f - --exclude .git/ --exclude .github/ . | curl -sS -H "Authorization: $DEPLOY_API_KEY" $DEPLOY_API_URL --data-binary @-
