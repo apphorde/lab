@@ -6,6 +6,8 @@ import {
   unpackTar,
 } from "tar";
 
+import { buildFileTree } from '/src/file-tree.mjs';
+
 let key = "";
 
 export async function pull(name) {
@@ -25,8 +27,9 @@ export async function pull(name) {
     const content = new TextDecoder().decode(entry.data);
 
     files.push({
-      name: entry.header.name,
-      type: entry.type,
+      name: entry.header.name.replace("./", ""),
+      type: entry.header.type,
+      meta: entry.header,
       content,
     });
   }
@@ -86,7 +89,8 @@ export default function () {
 
   async function download() {
     try {
-      files.value = await pull(projectName.value);
+      const list = await pull(projectName.value)
+      files.value = buildFileTree(list);
     } catch (e) {
       error.value = e;
     }

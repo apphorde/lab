@@ -1,0 +1,21 @@
+<template component="file-tree" shadow-dom="open">
+  <link rel="stylesheet" href="https://wdn.homebots.io/tailwind.css" />
+  <template for="entry of fileTree">
+    <div class="flex flex-col">
+      <template if="entry.type === 'f'">
+        <button
+          on-click="onSelect(entry)"
+          class="p-1 w-full text-xs text-left whitespace-pre text-ellipsis font-mono"
+        >
+          {{ entry.name }}
+        </button>
+      </template>
+      <template if="entry.type === 'd'">
+        <file-list bind-files="entry.files" on-select="onSelect(entry)">
+          &lt; {{ entry.name }}
+        </file-list>
+      </template>
+    </div>
+  </template>
+  <script setup src="/src/file-tree.mjs"></script>
+</template>
