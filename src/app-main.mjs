@@ -87,6 +87,7 @@ export default function () {
   return {
     projectName,
     setProjectName,
+    selected,
     error,
     download,
     upload,
