@@ -1,5 +1,10 @@
 import { hook, ref, shallowRef, computed } from "@li3/web";
-import { packTar, unpackTar } from "tar";
+import {
+  createGzipEncoder,
+  createGzipDecoder,
+  createTarPacker,
+  unpackTar,
+} from "tar";
 
 let key = "";
 
@@ -11,8 +16,11 @@ export async function pull(name) {
     },
   });
 
-  const tarBuffer = await res.arrayBuffer();
-  const entries = await unpackTar(tarBuffer);
+  if (!res.body) return [];
+
+  const entries = await unpackTar(
+    response.body.pipeThrough(createGzipDecoder()),
+  );
   const files = [];
 
   for (const entry of entries) {
@@ -28,26 +36,39 @@ export async function pull(name) {
 }
 
 export async function push(name, files) {
-  const manifest = files.find((f) => f.header.name === "package.json");
+  const manifest = files.find((f) => f.name === "package.json");
 
   if (!manifest) {
     const packageJson = JSON.stringify({ name });
-    const packageJsonFile = {
-      header: { name: "package.json", size: packageJson.length },
-      body: packageJson,
-    };
+    const packageJsonFile = { name: "package.json", body: packageJson };
 
     files.push(packageJsonFile);
   }
 
-  const tarBuffer = await packTar(files);
+  const { readable, controller } = createTarPacker();
+  const compressedStream = readable.pipeThrough(createGzipEncoder());
+
+  for (const file of files) {
+    const fileStream = controller.add({
+      name: file.name,
+      size: file.content.length,
+      type: "file",
+    });
+
+    const writer = fileStream.getWriter();
+    await writer.write(new TextEncoder().encode(file.content));
+    await writer.close();
+  }
+
+  controller.finalize();
+
   const res = await fetch("https://deploy.static.apphor.de/", {
     method: "POST",
     headers: {
       authorization: key,
       "content-type": "application/gzip",
     },
-    body: tarBuffer,
+    body: compressedStream,
   });
 
   return res.ok;
@@ -72,12 +93,7 @@ export default function () {
   }
 
   async function upload() {
-    const entries = files.value.map((file) => ({
-      header: { name: file.name, size: file.content.length },
-      body: file.content,
-    }));
-
-    await push(projectName.value, entries);
+    await push(projectName.value, files);
   }
 
   function openFile(file) {
