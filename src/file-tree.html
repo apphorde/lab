@@ -11,9 +11,19 @@
         </button>
       </template>
       <template if="entry.type === 'd'">
-        <file-list bind-files="entry.files" on-select="onSelect(entry)">
+        <button
+          on-click="entry.expanded = !entry.expanded"
+          class="p-1 w-full text-xs text-left whitespace-pre text-ellipsis font-mono"
+        >
           &lt; {{ entry.name }}
-        </file-list>
+        </button>
+        <template if="entry.expanded">
+          <file-list
+            class="ml-4"
+            bind-files="entry.files"
+            on-select="onSelect(entry)"
+          ></file-list>
+        </template>
       </template>
     </div>
   </template>
