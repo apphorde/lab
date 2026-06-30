@@ -18,9 +18,7 @@ export async function pull(name) {
 
   if (!res.body) return [];
 
-  const entries = await unpackTar(
-    response.body.pipeThrough(createGzipDecoder()),
-  );
+  const entries = await unpackTar(res.body.pipeThrough(createGzipDecoder()));
   const files = [];
 
   for (const entry of entries) {
