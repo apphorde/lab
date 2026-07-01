@@ -9,7 +9,6 @@ export default function () {
       expanded.value.delete(path);
     } else {
       expanded.value.add(path);
-      
     }
   }
 
@@ -39,6 +38,7 @@ export function buildFileTree(fileList) {
             type: "f",
             name: part,
             content: item.content || "",
+            original: item,
           });
         }
       } else {

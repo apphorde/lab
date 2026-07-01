@@ -74,15 +74,15 @@
           <div class="w-full overflow-auto h-6 text-xs">
             <template for="file of openFiles">
               <div
-                class="w-32 py-1 px-2 flex items-center justify-between border rounded bg-white"
+                class="w-32 py-1 px-2 flex items-center justify-between border rounded bg-white gap-1"
                 bind-title="file.path"
                 on-click="setSelected(file)"
               >
-                <span class="text-ellipsis whitespace-pre"
+                <span class="whitespace-pre overflow-hidden block"
                   >{{ file.name }}</span
                 >
                 <span
-                  class="w-2 h-2 bg-white rounded-full"
+                  class="w-2 h-2 bg-red-300 rounded-full"
                   class-hidden="!file.modifled"
                 ></span>
                 <button on-click.stop="onClose(file)">&times;</button>
