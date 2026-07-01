@@ -7,17 +7,17 @@
           on-click="onSelect(entry)"
           class="p-1 w-full text-xs text-left flex gap-1"
         >
-          <lucide-icon size="12" icon="file"></lucide-icon>
-          <span class="whitespace-pre overflow-hidden">{{ entry.name }}</span>
+          <lucide-icon size="14" icon="file"></lucide-icon>
+          <span class="truncate">{{ entry.name }}</span>
         </button>
       </template>
       <template if="entry.type === 'd'">
         <button
           on-click="toggleExpanded(entry.path)"
-          class="p-1 w-full text-xs text-left whitespace-pre overflow-hidden flex gap-1"
+          class="p-1 w-full text-xs text-left overflow-hidden flex items-center gap-1"
         >
-          <lucide-icon size="12" icon="folder"></lucide-icon>
-          <span class="whitespace-pre overflow-hidden">{{ entry.name }}</span>
+          <lucide-icon size="14" icon="folder"></lucide-icon>
+          <span class="truncate">{{ entry.name }}</span>
         </button>
         <template if="expanded.includes(entry.path)">
           <file-tree
