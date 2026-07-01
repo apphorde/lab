@@ -29,7 +29,7 @@
   <template if="file">
     <code-editor
       bind-value="file.content"
-      on-change="setContent($event.target.value)"
+      on-change="setContent($event.detail)"
       class="block border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
       class-hidden="showPreview"
       bind-language="guessLanguage()"
