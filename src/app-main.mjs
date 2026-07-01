@@ -138,7 +138,6 @@ export default function () {
   return {
     projectName,
     setProjectName,
-    selected,
     error,
     files,
     showPreview,
