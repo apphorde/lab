@@ -1,4 +1,5 @@
-<template component="app-main">
+<template component="app-main" shadow-dom="open">
+  <link rel="stylesheet" href="https://wdn.homebots.io/tailwind.css" />
   <link
     rel="component"
     href="https://sodium.static.apphor.de/code-editor.html"
@@ -28,7 +29,11 @@
               <lucide-icon size="12" icon="folder-down"></lucide-icon>
             </button>
             <button type="button" class="p-1">
-              <lucide-icon size="12" icon="cloud-upload" on-click="onUpload()"></lucide-icon>
+              <lucide-icon
+                size="12"
+                icon="cloud-upload"
+                on-click="onUpload()"
+              ></lucide-icon>
             </button>
           </form>
           <div class="w-8">
