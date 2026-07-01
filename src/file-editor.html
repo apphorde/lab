@@ -26,31 +26,33 @@
       return { showPreview, setPreview, setContent, guessLanguage };
     }
   </script>
-  <code-editor
-    bind-value="file.content"
-    on-change="setContent($event.target.value)"
-    class="block border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
-    class-hidden="showPreview"
-    bind-language="guessLanguage()"
-  ></code-editor>
-  <div
-    class="bg-gray-100 p-2 w-full h-full flex-1"
-    class-hidden="!showPreview"
-    bind-inner-html="file.content"
-  ></div>
-  <div class="flex justify-between items-center">
-    <div class="w-1/2 p-1 text-xs">{{ file.name }}</div>
-    <div class="w-1/2">
-      <button
-        class="border text-xs text-center w-12 p-1 bg-white rounded-l"
-        class-border-l-0.bg-blue-500.text-white.font-bold="!showPreview"
-        on-click="setPreview(false)"
-      ></button>
-      <button
-        class="border text-xs text-center w-12 p-1 bg-white rounded-r border-l-0"
-        class-border-l-0.bg-blue-500.text-white.font-bold="showPreview"
-        on-click="setPreview(true)"
-      ></button>
+  <template if="file">
+    <code-editor
+      bind-value="file.content"
+      on-change="setContent($event.target.value)"
+      class="block border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
+      class-hidden="showPreview"
+      bind-language="guessLanguage()"
+    ></code-editor>
+    <div
+      class="bg-gray-100 p-2 w-full h-full flex-1"
+      class-hidden="!showPreview"
+      bind-inner-html="file.content"
+    ></div>
+    <div class="flex justify-between items-center">
+      <div class="w-1/2 p-1 text-xs">{{ file.name }}</div>
+      <div class="w-1/2">
+        <button
+          class="border text-xs text-center w-12 p-1 bg-white rounded-l"
+          class-border-l-0.bg-blue-500.text-white.font-bold="!showPreview"
+          on-click="setPreview(false)"
+        ></button>
+        <button
+          class="border text-xs text-center w-12 p-1 bg-white rounded-r border-l-0"
+          class-border-l-0.bg-blue-500.text-white.font-bold="showPreview"
+          on-click="setPreview(true)"
+        ></button>
+      </div>
     </div>
-  </div>
+  </template>
 </template>
