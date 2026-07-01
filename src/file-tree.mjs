@@ -1,9 +1,10 @@
 import { defineProp, defineEvent, ref } from "@li3/web";
 
-export default function () {
+export default function fileTree() {
   const files = defineProp("files");
   const onSelect = defineEvent("select");
   const expanded = ref([]);
+
   function toggleExpanded(path) {
     if (expanded.value.includes(path)) {
       expanded.value = expanded.value.filter((x) => x !== path);
@@ -37,6 +38,7 @@ export function buildFileTree(fileList) {
           currentDir.files.push({
             type: "f",
             name: part,
+            path: item.name,
             content: item.content || "",
             original: item,
           });
