@@ -23,10 +23,10 @@
       </div>
     </template>
     <template if="profile">
-      <header class="flex items-center justify-between bg-gray-200">
+      <header class="flex items-center justify-between bg-gray-200 gap-1 p-1">
         <form
           on-submit.prevent.stop="onLoadProject()"
-          class="p-1 w-full block flex-grow flex items-center"
+          class="w-full block flex-grow flex items-center"
         >
           <input
             type="text"
@@ -61,18 +61,22 @@
           {{ String(error) }}
         </div>
       </template>
-      <main class="flex flex-1 gap-2 w-full">
-        <div class="w-1/4 flex flex-col h-full bg-gray-300 border-r">
+
+      <main class="flex flex-1 gap-2 w-full bg-gray-100">
+        <div class="w-1/4 flex flex-col h-full border-r">
           <file-tree
-            class="h-full"
+            class="h-full contents"
             on-select="onOpen($event.detail)"
             bind-files="files"
           ></file-tree>
         </div>
         <div class="flex-1 h-full">
-          <div class="w-full overflow-auto h-16 text-xs">
+          <div class="w-full overflow-auto h-6 text-xs">
             <template for="file of openFiles">
-              <div class="w-64 p-1 flex items-center">
+              <div
+                class="w-32 p-1 flex items-center justify-between border rounded"
+                bind-title="file.path"
+              >
                 <span class="text-ellipsis whitespace-pre"
                   >{{ file.name }}</span
                 >
@@ -80,9 +84,7 @@
                   class="w-2 h-2 bg-white rounded-full"
                   class-hidden="!file.modifled"
                 ></span>
-                <button class="w-2 h-2 tex" on-click="onClose(file)">
-                  &times;
-                </button>
+                <button on-click="onClose(file)">&times;</button>
               </div>
             </template>
           </div>

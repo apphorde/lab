@@ -9,7 +9,7 @@
       const setContent = defineEvent("content");
 
       function guessLanguage() {
-        const ext = (file.name.split(".").pop() || "").toLowerCase();
+        const ext = (file.name?.split(".").pop() || "").toLowerCase();
         switch (ext) {
           case ".js":
           case ".mjs":
@@ -29,7 +29,7 @@
   <code-editor
     bind-value="file.content"
     on-change="setContent($event.target.value)"
-    class="border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
+    class="block border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
     class-hidden="showPreview"
     bind-language="guessLanguage()"
   ></code-editor>
