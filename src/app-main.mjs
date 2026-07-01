@@ -1,4 +1,4 @@
-import { hook, ref, shallowRef } from "@li3/web";
+import { hook, ref, shallowRef, onInit } from "@li3/web";
 import {
   createGzipEncoder,
   createGzipDecoder,
@@ -10,6 +10,7 @@ import { buildFileTree, flattenTree } from "/src/file-tree.mjs";
 import {
   signIn,
   getPropertyNS,
+  getProfile,
   events,
 } from "https://auth.api.apphor.de/index.mjs";
 
@@ -102,6 +103,8 @@ export default function () {
       authorize(await getPropertyNS("deployKey"));
     }
   });
+
+  onInit(async () => profile.value = await getProfile());
 
   function onClose(file) {
     openFilesSet.delete(file);

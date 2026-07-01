@@ -71,11 +71,11 @@
           ></file-tree>
         </div>
         <div class="w-3/4 h-full">
-          <div class="w-full overflow-auto h-6 text-xs flex">
+          <div class="w-full overflow-auto h-6 text-xs flex" bind-files="files">
             <template for="file of openFiles">
               <div
-                class="w-32 py-1 px-2 flex items-center justify-between border border-b-0 rounded gap-1 bg-gray-100"
-                class-bg-white="isSelected(file)"
+                class="w-32 py-1 px-2 flex items-center justify-between border border-b-0 rounded gap-1"
+                bind-class="{ 'bg-white': isSelected(file), 'bg-gray-100.opacity-90': !isSelected(file) }"
                 bind-title="file.path"
                 on-click="setSelected(file)"
               >
@@ -94,7 +94,7 @@
             <file-editor
               bind-file="file"
               on-content="onSetContent(file, $event.detail)"
-              class-hidden="isSelected(file)"
+              class-hidden="!isSelected(file)"
             ></file-editor>
           </template>
         </div>
