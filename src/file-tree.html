@@ -5,10 +5,10 @@
       <template if="entry.type === 'f'">
         <button
           on-click="onSelect(entry)"
-          class="p-1 w-full text-xs text-left whitespace-pre overflow-hidden flex gap-1"
+          class="p-1 w-full text-xs text-left flex gap-1"
         >
           <lucide-icon size="8" icon="file"></lucide-icon>
-          <span>{{ entry.name }}</span>
+          <span class="whitespace-pre overflow-hidden">{{ entry.name }}</span>
         </button>
       </template>
       <template if="entry.type === 'd'">
@@ -17,7 +17,7 @@
           class="p-1 w-full text-xs text-left whitespace-pre overflow-hidden flex gap-1"
         >
           <lucide-icon size="8" icon="folder"></lucide-icon>
-          <span>{{ entry.name }}</span>
+          <span class="whitespace-pre overflow-hidden">{{ entry.name }}</span>
         </button>
         <template if="expanded.has(entry.path)">
           <file-tree
