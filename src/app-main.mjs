@@ -6,7 +6,7 @@ import {
   unpackTar,
 } from "tar";
 
-import { buildFileTree } from "/src/file-tree.mjs";
+import { buildFileTree, flattenTree } from "/src/file-tree.mjs";
 import {
   signIn,
   getPropertyNS,
@@ -101,19 +101,6 @@ export default function () {
     }
   });
 
-  async function download() {
-    try {
-      const list = await pull(projectName.value);
-      files.value = buildFileTree(list);
-    } catch (e) {
-      error.value = e;
-    }
-  }
-
-  async function upload() {
-    await push(projectName.value, files);
-  }
-
   function onClose(file) {
     openFilesSet.delete(file);
     openFiles.value = [...openFilesSet];
@@ -129,14 +116,22 @@ export default function () {
     file.modified = true;
   }
 
-  function onLoadProject() {
+  async function onLoadProject() {
     if (!(key && projectName.value)) return;
-    download();
+
+    try {
+      const list = await pull(projectName.value);
+      files.value = buildFileTree(list);
+    } catch (e) {
+      error.value = e;
+    }
   }
 
-  function onUpload() {
+  async function onUpload() {
     if (!(key && projectName.value)) return;
-    upload();
+
+    const list = flattenTree(files.value);
+    await push(projectName.value, list);
   }
 
   return {
