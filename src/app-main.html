@@ -65,7 +65,7 @@
         <div class="w-1/4 flex flex-col h-full bg-gray-300 border-r">
           <file-tree
             class="h-full"
-            on-select="onSelect($event)"
+            on-select="onOpen($event.detail)"
             bind-files="files"
           ></file-tree>
         </div>

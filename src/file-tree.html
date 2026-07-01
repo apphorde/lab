@@ -12,12 +12,12 @@
       </template>
       <template if="entry.type === 'd'">
         <button
-          on-click="entry.expanded = !entry.expanded"
+          on-click="toggleExpanded(entry.path)"
           class="p-1 w-full text-xs text-left whitespace-pre text-ellipsis font-mono"
         >
           &lt; {{ entry.name }}
         </button>
-        <template if="entry.expanded">
+        <template if="expanded.has(entry.path)">
           <file-list
             class="ml-4"
             bind-files="entry.files"

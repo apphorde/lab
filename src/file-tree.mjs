@@ -1,10 +1,19 @@
-import { defineProp, defineEvent } from "@li3/web";
+import { defineProp, defineEvent, ref } from "@li3/web";
 
 export default function () {
   const files = defineProp("files");
   const onSelect = defineEvent("select");
+  const expanded = ref(new Set());
+  function toggleExpanded(path) {
+    if (expanded.value.has(path)) {
+      expanded.value.delete(path);
+    } else {
+      expanded.value.add(path);
+      
+    }
+  }
 
-  return { files, onSelect };
+  return { files, expanded, onSelect, toggleExpanded };
 }
 
 export function buildFileTree(fileList) {
