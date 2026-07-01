@@ -91,6 +91,8 @@ export default function () {
   const profile = ref(null);
   const files = ref([]);
   const error = ref(null);
+  const downloading = ref(false);
+  const uploading = ref(false);
   const openFiles = shallowRef([]);
   const openFilesSet = new Set();
   const [selected, setSelected] = hook(null);
@@ -104,7 +106,7 @@ export default function () {
     }
   });
 
-  onInit(async () => profile.value = await getProfile());
+  onInit(async () => (profile.value = await getProfile()));
 
   function onClose(file) {
     openFilesSet.delete(file);
@@ -126,24 +128,36 @@ export default function () {
     if (!(key && projectName.value)) return;
 
     try {
+      downloading.value = true;
       const list = await pull(projectName.value);
       files.value = buildFileTree(list);
     } catch (e) {
       error.value = e;
+    } finally {
+      downloading.value = false;
     }
   }
 
   async function onUpload() {
     if (!(key && projectName.value)) return;
 
-    const list = flattenTree(files.value);
-    await push(projectName.value, list);
+    try {
+      uploading.value = true;
+      const list = flattenTree(files.value);
+      await push(projectName.value, list);
+    } catch (e) {
+      error.value = e;
+    } finally {
+      uploading.value = false;
+    }
   }
 
   return {
     projectName,
     setProjectName,
     error,
+    downloading,
+    uploading,
     files,
     openFiles,
     selected,
