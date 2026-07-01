@@ -84,6 +84,7 @@
             on-select="onOpen($event.detail)"
             on-navigate="onSelectFolder($event.detail)"
             bind-files="files"
+            bind-selected="selectedFolder?.path"
           ></file-tree>
         </div>
         <div class="w-3/4 h-full">

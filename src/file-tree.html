@@ -17,6 +17,7 @@
         <button
           on-click.stop="toggleExpanded(entry.path);onNav(entry)"
           class="p-1 w-full text-xs text-left overflow-hidden flex items-center gap-1"
+          class-bg-gray-200.font-bold="selected?.path === entry.path"
         >
           <lucide-icon size="14" icon="folder"></lucide-icon>
           <span class="truncate">{{ entry.name }}</span>
