@@ -87,7 +87,7 @@ export function authorize(newKey) {
 
 export default function () {
   const [projectName, setProjectName] = hook("");
-  const profile = shallowRef(null);
+  const profile = ref(null);
   const files = ref([]);
   const error = ref(null);
   const openFiles = shallowRef([]);
