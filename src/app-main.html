@@ -11,8 +11,19 @@
   <link rel="component" href="/src/file-tree.html" />
   <link rel="component" href="/src/file-editor.html" />
   <div class="flex flex-col items-stretch w-screen h-screen">
-    <header>
-      <template if="profile">
+    <template if="!profile">
+      <div class="flex items-center justify-center w-full h-full">
+        <button on-click="signIn(true)">
+          <lucide-icon
+            icon="user"
+            size="48"
+            class="bg-gray-100 text-blue-600 p-1 block h-8 w-8 rounded-full"
+          ></lucide-icon>
+        </button>
+      </div>
+    </template>
+    <template if="profile">
+      <header>
         <div class="flex items-center justify-between">
           <form
             on-submit.prevent.stop="onLoadProject()"
@@ -45,51 +56,47 @@
             </a>
           </div>
         </div>
-      </template>
-      <template if="!profile">
-        <div class="flex justify-end">
-          <button class="p-2 bg-blue-400 text-white" on-click="signIn()">
-            Sign In
-          </button>
-        </div>
-      </template>
+      </header>
+
       <template if="error">
         <div class="text-red-400 font-bold text-xl p-2">
           {{ String(error) }}
         </div>
       </template>
-    </header>
-    <main class="flex flex-1 gap-2 w-full">
-      <div class="w-1/4 flex flex-col h-full bg-gray-300 border-r">
-        <file-tree
-          class="h-full"
-          on-select="onSelect($event)"
-          bind-files="files"
-        ></file-tree>
-      </div>
-      <div class="flex-1 h-full">
-        <div class="w-full overflow-auto h-16 text-xs">
+      <main class="flex flex-1 gap-2 w-full">
+        <div class="w-1/4 flex flex-col h-full bg-gray-300 border-r">
+          <file-tree
+            class="h-full"
+            on-select="onSelect($event)"
+            bind-files="files"
+          ></file-tree>
+        </div>
+        <div class="flex-1 h-full">
+          <div class="w-full overflow-auto h-16 text-xs">
+            <template for="file of openFiles">
+              <div class="w-64 p-1 flex items-center">
+                <span class="text-ellipsis whitespace-pre"
+                  >{{ file.name }}</span
+                >
+                <span
+                  class="w-2 h-2 bg-white rounded-full"
+                  class-hidden="!file.modifled"
+                ></span>
+                <button class="w-2 h-2 tex" on-click="onClose(file)">
+                  &times;
+                </button>
+              </div>
+            </template>
+          </div>
           <template for="file of openFiles">
-            <div class="w-64 p-1 flex items-center">
-              <span class="text-ellipsis whitespace-pre">{{ file.name }}</span>
-              <span
-                class="w-2 h-2 bg-white rounded-full"
-                class-hidden="!file.modifled"
-              ></span>
-              <button class="w-2 h-2 tex" on-click="onClose(file)">
-                &times;
-              </button>
-            </div>
+            <file-editor
+              bind-file="file"
+              on-content="onSetContent(file, $event.detail)"
+            ></file-editor>
           </template>
         </div>
-        <template for="file of openFiles">
-          <file-editor
-            bind-file="file"
-            on-content="onSetContent(file, $event.detail)"
-          ></file-editor>
-        </template>
-      </div>
-    </main>
+      </main>
+    </template>
   </div>
   <script setup src="/src/app-main.mjs"></script>
 </template>
