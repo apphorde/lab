@@ -4,16 +4,18 @@
     <div class="flex flex-col">
       <template if="entry.type === 'f'">
         <button
-          on-click.stop="onSelect(entry)"
+          on-click.stop.prevent="onSelect(entry)"
+          on-dblclick.stop.prevent="onRename(entry)"
           class="p-1 w-full text-xs text-left flex gap-1"
         >
           <lucide-icon size="14" icon="file"></lucide-icon>
           <span class="truncate">{{ entry.name }}</span>
         </button>
       </template>
+
       <template if="entry.type === 'd'">
         <button
-          on-click.stop="toggleExpanded(entry.path)"
+          on-click.stop="toggleExpanded(entry.path);onNav(entry)"
           class="p-1 w-full text-xs text-left overflow-hidden flex items-center gap-1"
         >
           <lucide-icon size="14" icon="folder"></lucide-icon>
@@ -23,7 +25,8 @@
           <file-tree
             class="ml-4"
             bind-files="entry.files"
-            on-select="onSelect(entry)"
+            on-select="onSelect($event.detail)"
+            on-navigate="onNav($event.detail)"
           ></file-tree>
         </template>
       </template>

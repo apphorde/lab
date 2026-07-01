@@ -28,12 +28,12 @@ export async function pull(name) {
 
   const entries = await unpackTar(res.body.pipeThrough(createGzipDecoder()));
   const files = [];
-  const exclude = ['.git/', '.github/'];
+  const exclude = [".git/", ".github/"];
 
   for (const entry of entries) {
     const entryName = entry.header.name.replace("./", "");
 
-    if (exclude.some(x => entryName.startsWith(x))) continue;
+    if (exclude.some((x) => entryName.startsWith(x))) continue;
 
     const content = entry.data ? new TextDecoder().decode(entry.data) : null;
 
@@ -100,6 +100,7 @@ export default function () {
   const uploading = ref(false);
   const openFiles = shallowRef([]);
   const openFilesSet = new Set();
+  const [selectedFolder, onSelectFolder] = ref(null);
   const [selected, setSelected] = hook(null);
   const isSelected = (file) => file === selected.value;
 
@@ -158,6 +159,16 @@ export default function () {
     }
   }
 
+  function newFile() {
+    if (!selectedFolder.value) return;
+
+    selectedFolder.value.files = selectedFolder.value.files.concat({
+      type: "f",
+      content: "",
+      name: prompt("File name", "") || "new file",
+    });
+  }
+
   return {
     projectName,
     setProjectName,
@@ -169,6 +180,11 @@ export default function () {
     selected,
     isSelected,
     setSelected,
+
+    selectedFolder,
+    onSelectFolder,
+
+    newFile,
 
     profile,
     signIn,

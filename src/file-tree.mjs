@@ -3,6 +3,7 @@ import { defineProp, defineEvent, ref } from "@li3/web";
 export default function fileTree() {
   const files = defineProp("files");
   const onSelect = defineEvent("select");
+  const onNav = defineEvent("navigate");
   const expanded = ref([]);
 
   function toggleExpanded(path) {
@@ -17,7 +18,14 @@ export default function fileTree() {
     return expanded.value.includes(path);
   }
 
-  return { files, expanded, onSelect, isExpanded, toggleExpanded };
+  function onRename(entry) {
+    const name = prompt('File name', entry.name);
+    if (name) {
+      entry.name = name;
+    }
+  }
+
+  return { files, expanded, onSelect, onNav, isExpanded, toggleExpanded, onRename };
 }
 
 export function buildFileTree(fileList) {
