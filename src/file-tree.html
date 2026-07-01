@@ -15,7 +15,7 @@
 
       <template if="entry.type === 'd'">
         <button
-          on-click.stop="toggleExpanded(entry.path);onNav(entry)"
+          on-click.stop="toggleExpanded(entry.path),onNav(entry)"
           class="p-1 w-full text-xs text-left overflow-hidden flex items-center gap-1"
           class-bg-gray-200.font-bold="selected?.path === entry.path"
         >
