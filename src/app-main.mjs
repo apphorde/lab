@@ -28,20 +28,20 @@ export async function pull(name) {
 
   const entries = await unpackTar(res.body.pipeThrough(createGzipDecoder()));
   const files = [];
-  const exclude = /^(\.git|\.github)$/;
+  const exclude = /^(\.git\/|\.github\/)$/;
 
   for (const entry of entries) {
-    const name = entry.header.name.replace("./", "");
+    const entryName = entry.header.name.replace("./", "");
 
-    if (exclude.test(name)) continue;
+    if (exclude.test(entryName)) continue;
 
-    const content = new TextDecoder().decode(entry.data);
+    const content = entry.data ? new TextDecoder().decode(entry.data) : null;
 
     files.push({
-      name,
+      name: entryName,
       type: entry.header.type,
       meta: entry.header,
-      content,
+      ...(content !== null ? { content } : {}),
     });
   }
 
