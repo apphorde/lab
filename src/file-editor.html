@@ -1,0 +1,40 @@
+<template component="file-editor" shadow-dom="open">
+  <link rel="stylesheet" href="https://wdn.homebots.io/tailwind.css" />
+  <script setup>
+    import { ref, hook, defineProp, defineEvent } from "@li3/web";
+
+    export default function () {
+      const file = defineProp("file");
+      const [showPreview, setPreview] = hook(false);
+      const setContent = defineEvent("content");
+    }
+  </script>
+  <div class="flex flex-col"></div>
+  <div class="flex justify-between items-center">
+    <div class="w-1/2 p-1 text-xs">{{ file.name }}</div>
+    <div class="w-1/2">
+      <button
+        class="border text-xs text-center w-12 p-1 bg-white rounded-l"
+        class-border-l-0.bg-blue-500.text-white.font-bold="!showPreview"
+        on-click="setPreview(false)"
+      ></button>
+      <button
+        class="border text-xs text-center w-12 p-1 bg-white rounded-r border-l-0"
+        class-border-l-0.bg-blue-500.text-white.font-bold="showPreview"
+        on-click="setPreview(true)"
+      ></button>
+    </div>
+  </div>
+  <code-editor
+    bind-value="file.content"
+    on-change="setContent($event.target.value)"
+    class="flex-1"
+    class-hidden="showPreview"
+    language="html"
+  ></code-editor>
+  <div
+    class="bg-gray-100 p-2 w-full h-full flex-1"
+    class-hidden="!showPreview"
+    bind-inner-html="selected?.content"
+  ></div>
+</template>

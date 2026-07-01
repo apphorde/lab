@@ -4,50 +4,64 @@
     href="https://sodium.static.apphor.de/code-editor.html"
   />
   <link rel="component" href="/src/file-tree.html" />
+  <link rel="component" href="/src/file-editor.html" />
   <div class="flex flex-col items-start w-screen h-screen">
-    <header class="h-4">
-      <div class="flex h-4">
-        <form on-submit.prevent.stop="onSubmit()">
+    <header class="h-4 flex">
+      <template if="profile">
+        <form
+          on-submit.prevent.stop="onLoadProject()"
+          class="p-1 bg-gray-200 w-full"
+        >
           <input
             type="text"
             bind-value="projectName"
             on-change="setProjectName($event.target.value)"
             placeholder="Project name"
+            class="w-full text-xs p-1 border rounded"
           />
-          <input
-            type="text"
-            on-change="authorize($event.target.value)"
-            placeholder="API key"
-          />
-          <button type="submit">Refresh</button>
+          <button type="submit" class="hidden">Refresh</button>
         </form>
-      </div>
+      </template>
+      <template if="!profile">
+        <div class="flex justify-end">
+          <button class="p-2 bg-blue-400 text-white" on-click="signIn()">
+            Sign In
+          </button>
+        </div>
+      </template>
       <template if="error">
-        <div class="text-red-400 font-bold text-2xl p-2">
+        <div class="text-red-400 font-bold text-xl p-2">
           {{ String(error) }}
         </div>
       </template>
     </header>
     <main class="flex flex-1 gap-2 w-full">
-      <div class="w-1/4 flex flex-col h-full">
-        <file-tree class="h-full" bind-files="files"></file-tree>
+      <div class="w-1/4 flex flex-col h-full bg-gray-300 border-r">
+        <file-tree
+          class="h-full"
+          on-select="onSelect($event)"
+          bind-files="files"
+        ></file-tree>
       </div>
-      <div class="w-full h-full">
-        <div class="p-2 text-xs bg-gray-200 flex justify-between items-center">
-          <span>{{ selected?.name }}</span>
-          <button on-click="setPreview(!showPreview)">toggle</button>
+      <div class="flex-1 h-full">
+        <div class="w-full overflow-auto h-16 text-xs">
+          <template for="file of openFiles">
+            <div class="w-64 p-1 flex items-center">
+              <span class="text-ellipsis whitespace-pre">{{ file.name }}</span>
+              <span
+                class="w-2 h-2 bg-white rounded-full"
+                class-hidden="!file.modifled"
+              ></span>
+              <button class="w-2 h-2" on-click="onClose(file)">&times;</button>
+            </div>
+          </template>
         </div>
-        <code-editor
-          bind-value="selected?.content"
-          on-change="setContent($event.target.value)"
-          class-hidden="showPreview"
-          language="html"
-        ></code-editor>
-        <div
-          class="bg-gray-100 p-2 w-full h-full"
-          class-hidden="!showPreview"
-          bind-inner-html="selected?.content"
-        ></div>
+        <template for="file of openFiles">
+          <file-editor
+            bind-file="file"
+            on-content="onSetContent(file, $event.detail)"
+          ></file-editor>
+        </template>
       </div>
     </main>
   </div>

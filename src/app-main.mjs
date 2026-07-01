@@ -6,7 +6,12 @@ import {
   unpackTar,
 } from "tar";
 
-import { buildFileTree } from '/src/file-tree.mjs';
+import { buildFileTree } from "/src/file-tree.mjs";
+import {
+  signIn,
+  getPropertyNS,
+  events,
+} from "https://auth.api.apphor.de/index.mjs";
 
 let key = "";
 
@@ -83,13 +88,23 @@ export function authorize(newKey) {
 export default function () {
   const [projectName, setProjectName] = hook("");
   const [showPreview, setPreview] = hook(false);
+  const profile = ref(null);
   const files = ref([]);
   const error = ref(null);
-  const selected = shallowRef(null);
+  const openFiles = shallowRef([]);
+  const openFilesSet = new Set();
+
+  events.addEventListener("state", async (e) => {
+    profile.value = e.detail;
+
+    if (e.detail) {
+      authorize(await getPropertyNS("deployKey"));
+    }
+  });
 
   async function download() {
     try {
-      const list = await pull(projectName.value)
+      const list = await pull(projectName.value);
       files.value = buildFileTree(list);
     } catch (e) {
       error.value = e;
@@ -100,17 +115,22 @@ export default function () {
     await push(projectName.value, files);
   }
 
-  function openFile(file) {
-    selected.value = file;
+  function onClose(file) {
+    openFilesSet.delete(file);
+    openFiles.value = [...openFilesSet];
   }
 
-  function setContent(content) {
-    if (selected.value) {
-      selected.value.content = content;
-    }
+  function onOpen(file) {
+    openFilesSet.add(file);
+    openFiles.value = [...openFilesSet];
   }
 
-  function onSubmit() {
+  function onSetContent(file, content) {
+    file.content = content;
+    file.modified = true;
+  }
+
+  function onLoadProject() {
     if (!(key && projectName.value)) return;
     download();
   }
@@ -123,11 +143,14 @@ export default function () {
     files,
     showPreview,
     setPreview,
-    setContent,
+    signIn,
+
+    onSetContent,
     download,
     upload,
-    openFile,
+    onOpen,
+    onClose,
+    onLoadProject,
     authorize,
-    onSubmit,
   };
 }
