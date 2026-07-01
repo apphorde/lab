@@ -92,6 +92,7 @@ export default function () {
   const error = ref(null);
   const openFiles = shallowRef([]);
   const openFilesSet = new Set();
+  const [selected, setSelected] = hook(null);
 
   events.addEventListener("state", async (e) => {
     profile.value = e.detail;
@@ -140,6 +141,8 @@ export default function () {
     error,
     files,
     openFiles,
+    selected,
+    setSelected,
 
     profile,
     signIn,

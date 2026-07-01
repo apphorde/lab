@@ -63,19 +63,20 @@
       </template>
 
       <main class="flex flex-1 gap-2 w-full bg-gray-100">
-        <div class="w-1/4 flex flex-col h-full border-r overflow-auto">
+        <div class="w-1/4 flex flex-col h-full overflow-auto">
           <file-tree
             class="h-full contents"
             on-select="onOpen($event.detail)"
             bind-files="files"
           ></file-tree>
         </div>
-        <div class="flex-1 h-full">
+        <div class="w-3/4 h-full">
           <div class="w-full overflow-auto h-6 text-xs">
             <template for="file of openFiles">
               <div
                 class="w-32 py-1 px-2 flex items-center justify-between border rounded bg-white"
                 bind-title="file.path"
+                on-click="setSelected(file)"
               >
                 <span class="text-ellipsis whitespace-pre"
                   >{{ file.name }}</span
@@ -84,7 +85,7 @@
                   class="w-2 h-2 bg-white rounded-full"
                   class-hidden="!file.modifled"
                 ></span>
-                <button on-click="onClose(file)">&times;</button>
+                <button on-click.stop="onClose(file)">&times;</button>
               </div>
             </template>
           </div>
@@ -92,6 +93,7 @@
             <file-editor
               bind-file="file"
               on-content="onSetContent(file, $event.detail)"
+              class-hidden="file.path !== selected.path"
             ></file-editor>
           </template>
         </div>
