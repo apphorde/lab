@@ -105,7 +105,9 @@ export default function () {
   }
 
   function setContent(content) {
-    selected.value.content = content;
+    if (selected.value) {
+      selected.value.content = content;
+    }
   }
 
   function onSubmit() {
