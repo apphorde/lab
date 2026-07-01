@@ -9,11 +9,15 @@ export default function fileTree() {
     if (expanded.value.includes(path)) {
       expanded.value = expanded.value.filter((x) => x !== path);
     } else {
-      expanded.value.push(path);
+      expanded.value = expanded.value.concat(path);
     }
   }
 
-  return { files, expanded, onSelect, toggleExpanded };
+  function isExpanded(path) {
+    return expanded.value.includes(path);
+  }
+
+  return { files, expanded, onSelect, isExpanded, toggleExpanded };
 }
 
 export function buildFileTree(fileList) {
@@ -48,7 +52,12 @@ export function buildFileTree(fileList) {
           (f) => f.name === part && f.type === "d",
         );
         if (!dir) {
-          dir = { type: "d", name: part, files: [] };
+          dir = {
+            type: "d",
+            path: item.name,
+            name: part,
+            files: [],
+          };
           currentDir.files.push(dir);
         }
         currentDir = dir;

@@ -19,7 +19,7 @@
           <lucide-icon size="14" icon="folder"></lucide-icon>
           <span class="truncate">{{ entry.name }}</span>
         </button>
-        <template if="expanded.includes(entry.path)">
+        <template if="isExpanded(entry.path)">
           <file-tree
             class="ml-4"
             bind-files="entry.files"
