@@ -26,7 +26,18 @@
       return { showPreview, setPreview, setContent, guessLanguage };
     }
   </script>
-  <div class="flex flex-col"></div>
+  <code-editor
+    bind-value="file.content"
+    on-change="setContent($event.target.value)"
+    class="border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
+    class-hidden="showPreview"
+    bind-language="guessLanguage()"
+  ></code-editor>
+  <div
+    class="bg-gray-100 p-2 w-full h-full flex-1"
+    class-hidden="!showPreview"
+    bind-inner-html="file.content"
+  ></div>
   <div class="flex justify-between items-center">
     <div class="w-1/2 p-1 text-xs">{{ file.name }}</div>
     <div class="w-1/2">
@@ -42,16 +53,4 @@
       ></button>
     </div>
   </div>
-  <code-editor
-    bind-value="file.content"
-    on-change="setContent($event.target.value)"
-    class="border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
-    class-hidden="showPreview"
-    bind-language="guessLanguage()"
-  ></code-editor>
-  <div
-    class="bg-gray-100 p-2 w-full h-full flex-1"
-    class-hidden="!showPreview"
-    bind-inner-html="file.content"
-  ></div>
 </template>
