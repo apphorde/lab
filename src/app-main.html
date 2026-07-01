@@ -23,7 +23,9 @@
       </div>
     </template>
     <template if="profile">
-      <header class="flex items-center justify-between bg-gray-200 gap-2 p-1">
+      <header
+        class="flex items-center justify-between bg-gray-200 gap-2 py-1 px-2"
+      >
         <form
           on-submit.prevent.stop="onLoadProject()"
           class="w-full block flex-grow flex items-center"
@@ -47,7 +49,7 @@
             <lucide-icon
               size="16"
               bind-icon="uploading ? 'rotate-cw' : 'cloud-upload'"
-              class-animate-spin="downloading"
+              class-animate-spin="uploading"
               on-click="onUpload()"
             ></lucide-icon>
           </button>
