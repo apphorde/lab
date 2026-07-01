@@ -87,7 +87,6 @@ export function authorize(newKey) {
 
 export default function () {
   const [projectName, setProjectName] = hook("");
-  const [showPreview, setPreview] = hook(false);
   const profile = ref(null);
   const files = ref([]);
   const error = ref(null);
@@ -140,16 +139,14 @@ export default function () {
     setProjectName,
     error,
     files,
-    showPreview,
-    setPreview,
+    openFiles,
+
+    profile,
     signIn,
 
     onSetContent,
-    download,
-    upload,
     onOpen,
     onClose,
     onLoadProject,
-    authorize,
   };
 }
