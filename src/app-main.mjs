@@ -110,6 +110,7 @@ export default function () {
   function onOpen(file) {
     openFilesSet.add(file);
     openFiles.value = [...openFilesSet];
+    setSelected(file);
   }
 
   function onSetContent(file, content) {
