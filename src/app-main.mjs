@@ -87,7 +87,7 @@ export function authorize(newKey) {
 
 export default function () {
   const [projectName, setProjectName] = hook("");
-  const profile = ref(null);
+  const profile = shallowRef(null);
   const files = ref([]);
   const error = ref(null);
   const openFiles = shallowRef([]);
@@ -134,6 +134,11 @@ export default function () {
     download();
   }
 
+  function onUpload() {
+    if (!(key && projectName.value)) return;
+    upload();
+  }
+
   return {
     projectName,
     setProjectName,
@@ -148,5 +153,6 @@ export default function () {
     onOpen,
     onClose,
     onLoadProject,
+    onUpload,
   };
 }

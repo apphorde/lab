@@ -32,6 +32,7 @@ export function buildFileTree(fileList) {
             name: part,
             path: cleanPath,
             content: item.content || "",
+            original: item,
           });
         }
       } else {
