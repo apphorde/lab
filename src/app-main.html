@@ -93,7 +93,7 @@
             <file-editor
               bind-file="file"
               on-content="onSetContent(file, $event.detail)"
-              class-hidden="file.path !== selected.path"
+              class-hidden="selected && file && file.path !== selected.path"
             ></file-editor>
           </template>
         </div>
