@@ -4,7 +4,7 @@
     <div class="flex flex-col">
       <template if="entry.type === 'f'">
         <button
-          on-click="onSelect(entry)"
+          on-click.stop="onSelect(entry)"
           class="p-1 w-full text-xs text-left flex gap-1"
         >
           <lucide-icon size="14" icon="file"></lucide-icon>
@@ -13,7 +13,7 @@
       </template>
       <template if="entry.type === 'd'">
         <button
-          on-click="toggleExpanded(entry.path)"
+          on-click.stop="toggleExpanded(entry.path)"
           class="p-1 w-full text-xs text-left overflow-hidden flex items-center gap-1"
         >
           <lucide-icon size="14" icon="folder"></lucide-icon>
