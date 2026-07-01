@@ -98,15 +98,16 @@ export default function () {
   const [selected, setSelected] = hook(null);
   const isSelected = (file) => file === selected.value;
 
-  events.addEventListener("state", async (e) => {
-    profile.value = e.detail;
+  async function onProfileChange(user) {
+    profile.value = user;
 
-    if (e.detail) {
+    if (user) {
       authorize(await getPropertyNS("deployKey"));
     }
-  });
+  }
 
-  onInit(async () => (profile.value = await getProfile()));
+  events.addEventListener("state", (e) => onProfileChange(e.detail));
+  onInit(async () => onProfileChange(await getProfile()));
 
   function onClose(file) {
     openFilesSet.delete(file);
