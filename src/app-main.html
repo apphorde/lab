@@ -74,7 +74,10 @@
 
       <main class="flex flex-1 gap-2 w-full h-full bg-gray-100">
         <div class="w-1/4 h-full overflow-auto">
-          <div class="flex items-center justify-end">
+          <div class="flex items-center justify-end bg-gray-200 border-b">
+            <button on-click="newFolder()">
+              <lucide-icon size="14" icon="folder-plus"></lucide-icon>
+            </button>
             <button on-click="newFile()">
               <lucide-icon size="14" icon="file-plus-corner"></lucide-icon>
             </button>
@@ -94,7 +97,7 @@
                 class="w-32 py-1 px-2 flex items-center justify-between border border-b-0 rounded gap-1"
                 bind-class="{ 'bg-white': isSelected(file), 'bg-gray-100.opacity-90': !isSelected(file) }"
                 bind-title="file.path"
-                on-click="setSelected(file)"
+                on-click="onSelectFile(file)"
               >
                 <span class="whitespace-pre overflow-hidden block"
                   >{{ file.name }}</span

@@ -101,7 +101,7 @@ export default function () {
   const openFiles = shallowRef([]);
   const openFilesSet = new Set();
   const [selectedFolder, onSelectFolder] = hook(null);
-  const [selected, setSelected] = hook(null);
+  const [selected, onSelectFile] = hook(null);
   const isSelected = (file) => file === selected.value;
 
   async function onProfileChange(user) {
@@ -123,7 +123,7 @@ export default function () {
   function onOpen(file) {
     openFilesSet.add(file);
     openFiles.value = [...openFilesSet];
-    setSelected(file);
+    onSelectFile(file);
   }
 
   function onSetContent(file, content) {
@@ -138,6 +138,8 @@ export default function () {
       downloading.value = true;
       const list = await pull(projectName.value);
       files.value = buildFileTree(list);
+      openFiles.value = [];
+      selectedFolder.value = null;
     } catch (e) {
       error.value = e;
     } finally {
@@ -160,13 +162,31 @@ export default function () {
   }
 
   function newFile() {
-    if (!selectedFolder.value) return;
-
-    selectedFolder.value.files = selectedFolder.value.files.concat({
+    const newFile = {
       type: "f",
       content: "",
       name: prompt("File name", "") || "new file",
-    });
+    };
+
+    if (selectedFolder.value) {
+      selectedFolder.value.files = selectedFolder.value.files.concat(newFile);
+    } else {
+      files.value = files.value.concat(newFile);
+    }
+  }
+
+  function newFolder() {
+    const newFile = {
+      type: "d",
+      name: prompt("Folder name", "") || "new-folder",
+      files: [],
+    };
+
+    if (selectedFolder.value) {
+      selectedFolder.value.files = selectedFolder.value.files.concat(newFile);
+    } else {
+      files.value = files.value.concat(newFile);
+    }
   }
 
   return {
@@ -177,14 +197,15 @@ export default function () {
     uploading,
     files,
     openFiles,
-    selected,
     isSelected,
-    setSelected,
+    selected,
+    onSelectFile,
 
     selectedFolder,
     onSelectFolder,
 
     newFile,
+    newFolder,
 
     profile,
     signIn,
