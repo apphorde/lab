@@ -100,7 +100,7 @@ export default function () {
   const uploading = ref(false);
   const openFiles = shallowRef([]);
   const openFilesSet = new Set();
-  const [selectedFolder, onSelectFolder] = ref(null);
+  const [selectedFolder, onSelectFolder] = hook(null);
   const [selected, setSelected] = hook(null);
   const isSelected = (file) => file === selected.value;
 
