@@ -18,11 +18,11 @@
           &lt; {{ entry.name }}
         </button>
         <template if="expanded.has(entry.path)">
-          <file-list
+          <file-tree
             class="ml-4"
             bind-files="entry.files"
             on-select="onSelect(entry)"
-          ></file-list>
+          ></file-tree>
         </template>
       </template>
     </div>
