@@ -19,7 +19,7 @@
           <lucide-icon size="12" icon="folder"></lucide-icon>
           <span class="whitespace-pre overflow-hidden">{{ entry.name }}</span>
         </button>
-        <template if="expanded.has(entry.path)">
+        <template if="expanded.includes(entry.path)">
           <file-tree
             class="ml-4"
             bind-files="entry.files"

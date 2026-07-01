@@ -3,12 +3,12 @@ import { defineProp, defineEvent, ref } from "@li3/web";
 export default function () {
   const files = defineProp("files");
   const onSelect = defineEvent("select");
-  const expanded = ref(new Set());
+  const expanded = ref([]);
   function toggleExpanded(path) {
-    if (expanded.value.has(path)) {
-      expanded.value.delete(path);
+    if (expanded.value.includes(path)) {
+      expanded.value = expanded.value.filter((x) => x !== path);
     } else {
-      expanded.value.add(path);
+      expanded.value.push(path);
     }
   }
 
