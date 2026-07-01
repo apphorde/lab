@@ -1,6 +1,6 @@
 <template component="file-tree" shadow-dom="open">
   <link rel="stylesheet" href="https://wdn.homebots.io/tailwind.css" />
-  <template for="entry of fileTree">
+  <template for="entry of files">
     <div class="flex flex-col">
       <template if="entry.type === 'f'">
         <button

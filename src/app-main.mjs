@@ -1,4 +1,4 @@
-import { hook, ref, shallowRef, computed } from "@li3/web";
+import { hook, ref, shallowRef } from "@li3/web";
 import {
   createGzipEncoder,
   createGzipDecoder,

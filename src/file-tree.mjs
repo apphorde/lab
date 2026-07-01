@@ -3,11 +3,8 @@ import { defineProp, defineEvent } from "@li3/web";
 export default function () {
   const files = defineProp("files");
   const onSelect = defineEvent("select");
-  const fileTree = computed(
-    () => (fileTree.value = buildTreeFromPaths(files.value)),
-  );
 
-  return { fileTree, onSelect };
+  return { files, onSelect };
 }
 
 export function buildFileTree(fileList) {
