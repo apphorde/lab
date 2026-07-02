@@ -173,6 +173,8 @@ export default function () {
     } else {
       files.value = files.value.concat(newFile);
     }
+
+    onSelectFile(newFile);
   }
 
   function newFolder() {
