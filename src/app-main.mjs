@@ -74,11 +74,19 @@ export async function push(name, files) {
   }
 
   controller.finalize();
+  const chunks = [];
+  const reader = compressedStream.getReader();
 
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
+
+  const blob = new Blob(chunks, { type: "application/gzip" });
   const res = await fetch("https://deploy.static.apphor.de/", {
     method: "POST",
-    duplex: "half",
-    body: compressedStream,
+    body: blob,
     headers: {
       authorization: key,
       "content-type": "application/gzip",
