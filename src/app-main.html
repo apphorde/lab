@@ -38,7 +38,12 @@
             placeholder="Project name"
             class="w-full text-xs p-1 border rounded"
           />
-          <button type="submit" class="p-1">
+          <button
+            type="submit"
+            class="p-1"
+            bind-disabled="!projectName"
+            class-text-red-400="!projectName"
+          >
             <lucide-icon
               class="block"
               size="16"
@@ -46,7 +51,12 @@
               class-animate-spin="downloading"
             ></lucide-icon>
           </button>
-          <button type="button" class="p-1">
+          <button
+            type="button"
+            class="p-1"
+            bind-disabled="!projectName"
+            class-text-red-400="!projectName"
+          >
             <lucide-icon
               class="block"
               size="16"
@@ -74,7 +84,9 @@
 
       <main class="flex flex-1 gap-2 w-full h-full bg-gray-100">
         <div class="w-1/4 h-full overflow-auto">
-          <div class="flex items-center justify-end bg-gray-200 border-b gap-1 p-1">
+          <div
+            class="flex items-center justify-end bg-gray-200 border-b gap-1 p-1"
+          >
             <button on-click="newFolder()">
               <lucide-icon size="14" icon="folder-plus"></lucide-icon>
             </button>

@@ -65,8 +65,8 @@ export async function push(name, files) {
   const compressedStream = readable.pipeThrough(createGzipEncoder());
 
   for (const file of files) {
-    const fileStream = controller.add(file);
-    if (file.content?.length) {
+    const fileStream = controller.add(file.header);
+    if (file.header.type === 'file' && file.content?.length) {
       const writer = fileStream.getWriter();
       await writer.write(new TextEncoder().encode(file.content));
       await writer.close();
