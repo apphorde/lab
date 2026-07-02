@@ -77,11 +77,12 @@ export async function push(name, files) {
 
   const res = await fetch("https://deploy.static.apphor.de/", {
     method: "POST",
+    duplex: "half",
+    body: compressedStream,
     headers: {
       authorization: key,
       "content-type": "application/gzip",
     },
-    body: compressedStream,
   });
 
   return res.ok;
