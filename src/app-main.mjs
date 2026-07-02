@@ -165,7 +165,7 @@ export default function () {
     const newFile = {
       type: "f",
       content: "",
-      name: prompt("File name", "") || "new file",
+      name: (prompt("File name", "") || "new file").replace(/[^a-zA-Z0-9.-_]/g, ''),
     };
 
     if (selectedFolder.value) {
@@ -173,8 +173,6 @@ export default function () {
     } else {
       files.value = files.value.concat(newFile);
     }
-
-    onOpen(newFile);
   }
 
   function newFolder() {

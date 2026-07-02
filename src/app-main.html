@@ -34,6 +34,7 @@
             type="text"
             name="projectName"
             bind-value="projectName"
+            on-input="setProjectName($event.target.value)"
             on-change="setProjectName($event.target.value)"
             placeholder="Project name"
             class="w-full text-xs p-1 border rounded"
