@@ -54,7 +54,7 @@ export async function push(name, files) {
   if (!manifest) {
     const packageJson = JSON.stringify({ name });
     const packageJsonFile = {
-      header: { name: "package.json" },
+      header: { name: "package.json", type: "file", size: packageJson.length },
       content: packageJson,
     };
 
@@ -66,7 +66,7 @@ export async function push(name, files) {
 
   for (const file of files) {
     const fileStream = controller.add(file.header);
-    if (file.header.type === 'file' && file.content?.length) {
+    if (file.header.type === "file" && file.content?.length) {
       const writer = fileStream.getWriter();
       await writer.write(new TextEncoder().encode(file.content));
       await writer.close();
@@ -165,7 +165,10 @@ export default function () {
     const newFile = {
       type: "f",
       content: "",
-      name: (prompt("File name", "") || "new file").replace(/[^a-zA-Z0-9.-_]/g, ''),
+      name: (prompt("File name", "") || "new file").replace(
+        /[^a-zA-Z0-9.-_]/g,
+        "",
+      ),
     };
 
     if (selectedFolder.value) {
