@@ -29,10 +29,10 @@
   <template if="file">
     <code-editor
       bind-value="file.content"
+      bind-language="guessLanguage()"
       on-change="setContent($event.detail)"
       class="block border border-gray-300 rounded-lg h-full bg-white overflow-hidden flex-grow"
       class-hidden="showPreview"
-      bind-language="guessLanguage()"
     ></code-editor>
     <div
       class="bg-gray-100 p-2 w-full h-full flex-1"
