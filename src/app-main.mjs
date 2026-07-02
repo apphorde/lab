@@ -53,7 +53,10 @@ export async function push(name, files) {
 
   if (!manifest) {
     const packageJson = JSON.stringify({ name });
-    const packageJsonFile = { name: "package.json", body: packageJson };
+    const packageJsonFile = {
+      header: { name: "package.json" },
+      content: packageJson,
+    };
 
     files.push(packageJsonFile);
   }
@@ -62,15 +65,12 @@ export async function push(name, files) {
   const compressedStream = readable.pipeThrough(createGzipEncoder());
 
   for (const file of files) {
-    const fileStream = controller.add({
-      name: file.name,
-      size: file.content.length,
-      type: "file",
-    });
-
-    const writer = fileStream.getWriter();
-    await writer.write(new TextEncoder().encode(file.content));
-    await writer.close();
+    const fileStream = controller.add(file);
+    if (file.content?.length) {
+      const writer = fileStream.getWriter();
+      await writer.write(new TextEncoder().encode(file.content));
+      await writer.close();
+    }
   }
 
   controller.finalize();
