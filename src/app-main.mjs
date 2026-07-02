@@ -174,7 +174,7 @@ export default function () {
       files.value = files.value.concat(newFile);
     }
 
-    onSelectFile(newFile);
+    onOpen(newFile);
   }
 
   function newFolder() {
